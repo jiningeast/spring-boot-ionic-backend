@@ -21,8 +21,8 @@ public class CategoryResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 
 		Category obj = categoryService.find(id);
-
 		return ResponseEntity.ok().body(obj);
+		
 	}
 
 }
