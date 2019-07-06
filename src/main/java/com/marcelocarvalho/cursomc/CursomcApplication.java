@@ -1,5 +1,6 @@
 package com.marcelocarvalho.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +12,21 @@ import com.marcelocarvalho.cursomc.domain.Address;
 import com.marcelocarvalho.cursomc.domain.Category;
 import com.marcelocarvalho.cursomc.domain.City;
 import com.marcelocarvalho.cursomc.domain.Client;
+import com.marcelocarvalho.cursomc.domain.Payment;
+import com.marcelocarvalho.cursomc.domain.PaymentCreditCard;
+import com.marcelocarvalho.cursomc.domain.PaymentTicket;
 import com.marcelocarvalho.cursomc.domain.Product;
+import com.marcelocarvalho.cursomc.domain.Request;
 import com.marcelocarvalho.cursomc.domain.State;
 import com.marcelocarvalho.cursomc.domain.enums.ClientType;
+import com.marcelocarvalho.cursomc.domain.enums.PaymentStatus;
 import com.marcelocarvalho.cursomc.repositories.AddressRepository;
 import com.marcelocarvalho.cursomc.repositories.CategoryRepository;
 import com.marcelocarvalho.cursomc.repositories.CityRepository;
 import com.marcelocarvalho.cursomc.repositories.ClientRepository;
+import com.marcelocarvalho.cursomc.repositories.PaymentRepository;
 import com.marcelocarvalho.cursomc.repositories.ProductRepository;
+import com.marcelocarvalho.cursomc.repositories.RequestRepository;
 import com.marcelocarvalho.cursomc.repositories.StateRepository;
 
 @SpringBootApplication
@@ -41,6 +49,14 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private RequestRepository requestRepository;
+	
+	@Autowired
+	private PaymentRepository paymentRepository;
+	
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -91,6 +107,23 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		clientRepository.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(a1,a2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Request req1 = new Request(null, sdf.parse("30/09/2018 00:28 "), cli1, a1);
+		Request req2 = new Request(null, sdf.parse("30/09/2018 00:28 "), cli1, a2);
+		
+		Payment pay1 = new PaymentCreditCard(null, PaymentStatus.QUITADO, req1, 6);
+		req1.setPayment(pay1);
+		
+		Payment pay2 = new PaymentTicket(null,  PaymentStatus.PENDENTE, req2,sdf.parse("20/11/2019 00:00"),null);	
+		req2.setPayment(pay2);
+		
+		cli1.getRequests().addAll(Arrays.asList(req1,req2));
+		
+		
+		requestRepository.saveAll(Arrays.asList(req1, req2));
+		paymentRepository.saveAll(Arrays.asList(pay1,pay2));
 		
 		
 	}

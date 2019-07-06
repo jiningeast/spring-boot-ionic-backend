@@ -37,6 +37,9 @@ public class Client implements Serializable {
 	@ElementCollection
 	@CollectionTable(name="fhone")
 	private Set<String> fhones = new HashSet<>();
+	
+	@OneToMany(mappedBy="client")
+	private List<Request> requests = new ArrayList<>(); 
 
 	public Client() {
 
@@ -80,7 +83,7 @@ public class Client implements Serializable {
 		return cpfOrCnpj;
 	}
 
-	public void setCpfOrCnpj(String cfpOrCnpj) {
+	public void setCpfOrCnpj(String cpfOrCnpj) {
 		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
@@ -107,6 +110,15 @@ public class Client implements Serializable {
 	public void setFhones(Set<String> fhones) {
 		this.fhones = fhones;
 	}
+	
+	public List<Request> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(List<Request> requests) {
+		this.requests = requests;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -132,7 +144,8 @@ public class Client implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+
 	
 
 }
