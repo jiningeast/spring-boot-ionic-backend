@@ -41,7 +41,7 @@ public class RequestItem implements Serializable {
 	/*
 	 * public void setRequest(Request request) { id.setRequest(request); }
 	 */
-	
+
 	public Product getProduct() {
 		return id.getProduct();
 	}
