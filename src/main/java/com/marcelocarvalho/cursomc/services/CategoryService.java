@@ -19,7 +19,11 @@ public class CategoryService {
 		Optional<Category> obj = categoryRepository.findById(id); 	
 		return obj.orElseThrow(()-> new ObjectNotFoundException ("Object not found! ID: "+ id +", TypeSink Sink :" + Category.class.getName()));
 				
-				
+	}
+	
+	public Category insert (Category obj) {
+		obj.setId(null);
+		return categoryRepository.save(obj);
 	}
 	
 }
